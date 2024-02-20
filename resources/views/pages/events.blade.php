@@ -60,7 +60,7 @@
                                 var calendar = new FullCalendar.Calendar(calendarEl, {
                                 initialView: 'dayGridMonth',
                                 themeSystem: 'bootstrap5',
-                                events: `{{ route('events.list') }}`,
+                                events: `{{ route('events') }}`,
                                 editable: true,
                                 dateClick: function (info) {
                                     $.ajax({
