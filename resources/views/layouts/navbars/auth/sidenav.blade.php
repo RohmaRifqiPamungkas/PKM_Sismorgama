@@ -49,7 +49,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link {{ request()->is('events') ? 'active' : '' }}" href="{{ route('events') }}">
+                <a class="nav-link {{ request()->is('events') ? 'active' : '' }}" href="{{ route('events.index') }}">
                     <div
                         class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
                         <i class="fa fa-calendar-days text-primary text-sm opacity-10"></i>

@@ -13,7 +13,7 @@ class EventsController extends Controller
      */
     public function index()
     {
-        return view('event');
+        return view('events');
     }
 
     public function listEvent(Request $request)
@@ -22,15 +22,15 @@ class EventsController extends Controller
         $end = date('Y-m-d', strtotime($request->end));
 
         $events = Event::where('start_date', '>=', $start)
-        ->where('end_date', '<=' , $end)->get()
-        ->map( fn ($item) => [
-            'id' => $item->id,
-            'title' => $item->title,
-            'start' => $item->start_date,
-            'end' => date('Y-m-d',strtotime($item->end_date. '+1 days')),
-            'category' => $item->category,
-            'className' => ['bg-'. $item->category]
-        ]);
+            ->where('end_date', '<=', $end)->get()
+            ->map(fn ($item) => [
+                'id' => $item->id,
+                'title' => $item->title,
+                'start' => $item->start_date,
+                'end' => date('Y-m-d', strtotime($item->end_date . '+1 days')),
+                'category' => $item->category,
+                'className' => ['bg-' . $item->category]
+            ]);
 
         return response()->json($events);
     }

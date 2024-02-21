@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    @include('layouts.navbars.auth.topnav', ['title' => 'Events'])
+    @include('layouts.navbars.auth.topnav', ['title' => 'Manajemen Kas'])
     <div class="row mt-4 mx-3">
         <div class="col-12">
             <div class="card card-profile mt-5">
@@ -38,69 +38,36 @@
         @include('components.alert')
     </div>
 
-    <div class="container-fluid py-3 my-3">
+    <meta name="csrf_token" content="{{ csrf_token() }}">
+    
+    <div class="container-fluid py-3">
         <div class="row">
             <div class="col-md-12">
                 <div class="card">
-                    <div class="card-header pb-0 py-3 my-3">
+                    <div class="card-body">
                         <div class="d-flex align-items-center">
-                            <p class="mb-0">Edit Profile</p>
-                            <!-- Tombol untuk Membuka Modal -->
-                            <button type="button" class="btn btn-primary btn-sm ms-auto" data-bs-toggle="modal"
-                                data-bs-target="#modal-action">
-                                Tampilkan Form
-                            </button>
+                            <p class="mb-0">Management Events</p>
                         </div>
                         <div id='calendar'></div>
+                        <div id="modal-action" class="modal" tabindex="-1"></div>
 
-                        <!-- Modal -->
-                        <div id="modal-action" class="modal" tabindex="-1">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title">Judul Modal</h5>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                            aria-label="Close"></button>
-                                    </div>
-                                    <div class="modal-body">
-
-                                        <form id="form-action">
-                                            @isset($action)
-                                                @include('events-form', [
-                                                    'action' => $action,
-                                                    'data' => $data,
-                                                ])
-                                            @endisset
-                                        </form>
-
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary"
-                                            data-bs-dismiss="modal">Tutup</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"
-                            integrity="sha512-pumBsjNRGGqkPzKHndZMaAG+bir374sORyzM3uulLV14lN5LyykqNk8eEeUlUkB3U0M4FApyaHraT65ihJhDpQ=="
-                            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-                        <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.7/index.global.min.js"></script>
-                        <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/bootstrap5@6.1.7/index.global.min.js"></script>
+                        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+                        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js" integrity="sha512-pumBsjNRGGqkPzKHndZMaAG+bir374sORyzM3uulLV14lN5LyykqNk8eEeUlUkB3U0M4FApyaHraT65ihJhDpQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+                        <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.7/index.global.min.js'></script>
+                        <script src='https://cdn.jsdelivr.net/npm/@fullcalendar/bootstrap5@6.1.7/index.global.min.js'></script>
                         <script>
-                            const modal = $('#modal-action');
-                            const csrfToken = $('meta[name=csrf_token]').attr('content');
-
+                            const modal = $('#modal-action')
+                            const csrfToken = $('meta[name=csrf_token]').attr('content')
                             document.addEventListener('DOMContentLoaded', function() {
                                 var calendarEl = document.getElementById('calendar');
                                 var calendar = new FullCalendar.Calendar(calendarEl, {
+                                    initialView: 'dayGridMonth',
                                     headerToolbar: {
                                         left: 'prev,next today',
                                         center: 'title',
-                                        right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
+                                        right: 'dayGridMonth,timeGridWeek,timeGridDay'
                                     },
-
-                                    events: `{{ route('events') }}`,
+                                    events: `{{ route('events.list') }}`,
                                     editable: true,
                                     dateClick: function(info) {
                                         $.ajax({
@@ -110,16 +77,16 @@
                                                 end_date: info.dateStr
                                             },
                                             success: function(res) {
-                                                modal.html(res).modal('show');
+                                                modal.html(res).modal('show')
                                                 $('.datepicker').datepicker({
                                                     todayHighlight: true,
                                                     format: 'yyyy-mm-dd'
                                                 });
 
                                                 $('#form-action').on('submit', function(e) {
-                                                    e.preventDefault();
-                                                    const form = this;
-                                                    const formData = new FormData(form);
+                                                    e.preventDefault()
+                                                    const form = this
+                                                    const formData = new FormData(form)
                                                     $.ajax({
                                                         url: form.action,
                                                         method: form.method,
@@ -127,16 +94,16 @@
                                                         processData: false,
                                                         contentType: false,
                                                         success: function(res) {
-                                                            modal.modal('hide');
-                                                            calendar.refetchEvents();
+                                                            modal.modal('hide')
+                                                            calendar.refetchEvents()
                                                         },
                                                         error: function(res) {
 
                                                         }
-                                                    });
-                                                });
+                                                    })
+                                                })
                                             }
-                                        });
+                                        })
                                     },
                                     eventClick: function({
                                         event
@@ -144,12 +111,12 @@
                                         $.ajax({
                                             url: `{{ url('events') }}/${event.id}/edit`,
                                             success: function(res) {
-                                                modal.html(res).modal('show');
+                                                modal.html(res).modal('show')
 
                                                 $('#form-action').on('submit', function(e) {
-                                                    e.preventDefault();
-                                                    const form = this;
-                                                    const formData = new FormData(form);
+                                                    e.preventDefault()
+                                                    const form = this
+                                                    const formData = new FormData(form)
                                                     $.ajax({
                                                         url: form.action,
                                                         method: form.method,
@@ -157,16 +124,16 @@
                                                         processData: false,
                                                         contentType: false,
                                                         success: function(res) {
-                                                            modal.modal('hide');
-                                                            calendar.refetchEvents();
+                                                            modal.modal('hide')
+                                                            calendar.refetchEvents()
                                                         }
-                                                    });
-                                                });
+                                                    })
+                                                })
                                             }
-                                        });
+                                        })
                                     },
                                     eventDrop: function(info) {
-                                        const event = info.event;
+                                        const event = info.event
                                         $.ajax({
                                             url: `{{ url('events') }}/${event.id}`,
                                             method: 'put',
@@ -189,20 +156,20 @@
                                                 });
                                             },
                                             error: function(res) {
-                                                const message = res.responseJSON.message;
-                                                info.revert();
+                                                const message = res.responseJSON.message
+                                                info.revert()
                                                 iziToast.error({
                                                     title: 'Error',
                                                     message: message ?? 'Something wrong',
                                                     position: 'topRight'
                                                 });
                                             }
-                                        });
+                                        })
                                     },
                                     eventResize: function(info) {
                                         const {
                                             event
-                                        } = info;
+                                        } = info
                                         $.ajax({
                                             url: `{{ url('events') }}/${event.id}`,
                                             method: 'put',
@@ -225,15 +192,15 @@
                                                 });
                                             },
                                             error: function(res) {
-                                                const message = res.responseJSON.message;
-                                                info.revert();
+                                                const message = res.responseJSON.message
+                                                info.revert()
                                                 iziToast.error({
                                                     title: 'Error',
                                                     message: message ?? 'Something wrong',
                                                     position: 'topRight'
                                                 });
                                             }
-                                        });
+                                        })
                                     }
                                 });
                                 calendar.render();

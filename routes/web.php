@@ -59,9 +59,10 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('/absensi', [AbsensiController::class, 'show'])->name('absensi');
 	Route::get('/manajemen_kas', [ManajemenKasController::class, 'show'])->name('manajemen_kas');
 
-	Route::get('/events', [EventsController::class, 'listEvent'])->name('events');
-	Route::get('/events/create', [EventsController::class, 'create'])->name('events.create');
-	Route::get('/events/{event}/edit', [EventsController::class, 'edit'])->name('events.edit');
+	// Route::get('/events', [EventsController::class, 'events'])->name('events.index');
+
+	Route::get('events/list', [EventsController::class, 'listEvent'])->name('events.list');
+	Route::resource('events', EventsController::class);
 
 	Route::get('/qr-code', [AbsensiController::class, 'generateQRCode'])->name('qr-code');
 });

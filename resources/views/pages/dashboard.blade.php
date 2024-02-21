@@ -68,7 +68,7 @@
                             </div>
                             <hr>
                             <div>
-                                <a href="{{ route('events') }}">More Info
+                                <a href="{{ route('events.index') }}">More Info
                                     <i class="fas fa-arrow-circle-right"></i>
                                 </a>
                             </div>
