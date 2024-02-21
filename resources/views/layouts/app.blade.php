@@ -20,10 +20,6 @@
     <!-- CSS Files -->
     <link id="pagestyle" href="assets/css/argon-dashboard.css" rel="stylesheet" />
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/main.css" integrity="sha384-...",
-        crossorigin="anonymous">
-
     <!-- ICON -->
     <script src="https://kit.fontawesome.com/588acb177c.js" crossorigin="anonymous"></script>
 </head>
@@ -31,31 +27,38 @@
 <body class="{{ $class ?? '' }}">
 
     @guest
-    @yield('content')
+        @yield('content')
     @endguest
 
     @auth
-    @if (in_array(request()->route()->getName(), ['sign-in-static', 'sign-up-static', 'login', 'register',
-    'recover-password', 'rtl', 'virtual-reality']))
-    @yield('content')
-    @else
-    @if (!in_array(request()->route()->getName(), ['profile', 'profile-static']))
-    <div class="min-height-300 bg-primary position-absolute w-100"
-        style="background-image: url('./assets/img/amikom.jpg'); background-position-y: 50%;">
-        <span class="mask bg-primary opacity-6"></span>
-    </div>
-    @elseif (in_array(request()->route()->getName(), ['profile-static', 'profile']))
-    <div class="position-absolute w-100 min-height-300 top-0"
-        style="background-image: url('./assets/img/amikom.jpg'); background-position-y: 50%;">
-        <span class="mask bg-primary opacity-6"></span>
-    </div>
-    @endif
-    @include('layouts.navbars.auth.sidenav')
-    <main class="main-content border-radius-lg">
-        @yield('content')
-    </main>
-    @include('components.fixed-plugin')
-    @endif
+        @if (in_array(request()->route()->getName(), [
+                'sign-in-static',
+                'sign-up-static',
+                'login',
+                'register',
+                'recover-password',
+                'rtl',
+                'virtual-reality',
+            ]))
+            @yield('content')
+        @else
+            @if (!in_array(request()->route()->getName(), ['profile', 'profile-static']))
+                <div class="min-height-300 bg-primary position-absolute w-100"
+                    style="background-image: url('./assets/img/amikom.jpg'); background-position-y: 50%;">
+                    <span class="mask bg-primary opacity-6"></span>
+                </div>
+            @elseif (in_array(request()->route()->getName(), ['profile-static', 'profile']))
+                <div class="position-absolute w-100 min-height-300 top-0"
+                    style="background-image: url('./assets/img/amikom.jpg'); background-position-y: 50%;">
+                    <span class="mask bg-primary opacity-6"></span>
+                </div>
+            @endif
+            @include('layouts.navbars.auth.sidenav')
+            <main class="main-content border-radius-lg">
+                @yield('content')
+            </main>
+            @include('components.fixed-plugin')
+        @endif
     @endauth
 
     <!--   Core JS Files   -->
@@ -64,13 +67,13 @@
     <script src="assets/js/plugins/perfect-scrollbar.min.js"></script>
     <script src="assets/js/plugins/smooth-scrollbar.min.js"></script>
     <script>
-    var win = navigator.platform.indexOf('Win') > -1;
-    if (win && document.querySelector('#sidenav-scrollbar')) {
-        var options = {
-            damping: '0.5'
+        var win = navigator.platform.indexOf('Win') > -1;
+        if (win && document.querySelector('#sidenav-scrollbar')) {
+            var options = {
+                damping: '0.5'
+            }
+            Scrollbar.init(document.querySelector('#sidenav-scrollbar'), options);
         }
-        Scrollbar.init(document.querySelector('#sidenav-scrollbar'), options);
-    }
     </script>
     <!-- Github buttons -->
     <script async defer src="https://buttons.github.io/buttons.js"></script>

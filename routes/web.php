@@ -60,7 +60,7 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('/manajemen_kas', [ManajemenKasController::class, 'show'])->name('manajemen_kas');
 
 	Route::get('/events', [EventsController::class, 'listEvent'])->name('events');
-	Route::resource('/events', EventsController::class);
+	Route::get('/events/create', [EventsController::class, 'create'])->name('events.create');
 
 	Route::get('/qr-code', [AbsensiController::class, 'generateQRCode'])->name('qr-code');
 });
