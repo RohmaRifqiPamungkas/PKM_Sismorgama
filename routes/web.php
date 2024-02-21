@@ -61,6 +61,7 @@ Route::group(['middleware' => 'auth'], function () {
 
 	Route::get('/events', [EventsController::class, 'listEvent'])->name('events');
 	Route::get('/events/create', [EventsController::class, 'create'])->name('events.create');
+	Route::get('/events/{event}/edit', [EventsController::class, 'edit'])->name('events.edit');
 
 	Route::get('/qr-code', [AbsensiController::class, 'generateQRCode'])->name('qr-code');
 });

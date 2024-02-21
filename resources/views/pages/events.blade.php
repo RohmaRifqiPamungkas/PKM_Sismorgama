@@ -63,14 +63,16 @@
                                             aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body">
+
                                         <form id="form-action">
                                             @isset($action)
-                                                @include('pages.event-form', [
+                                                @include('events-form', [
                                                     'action' => $action,
                                                     'data' => $data,
                                                 ])
-                                            @endisset                                          
+                                            @endisset
                                         </form>
+
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary"
