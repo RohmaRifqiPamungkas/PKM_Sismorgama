@@ -34,9 +34,9 @@
         </div>
     </div>
 
-    <div id="alert">
+    <!-- <div id="alert">
         @include('components.alert')
-    </div>
+    </div> -->
 
     <meta name="csrf_token" content="{{ csrf_token() }}">
 
