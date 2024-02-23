@@ -13,7 +13,7 @@ class EventsController extends Controller
      */
     public function index()
     {
-        return view('events');
+        return view('pages.events');
     }
 
     public function listEvent(Request $request)
@@ -40,7 +40,7 @@ class EventsController extends Controller
      */
     public function create(Event $event)
     {
-        return view('event-form', ['data' => $event, 'action' => route('events.store')]);
+        return view('pages.event-form', ['data' => $event, 'action' => route('events.store')]);
     }
 
     /**
@@ -64,7 +64,7 @@ class EventsController extends Controller
      */
     public function edit(Event $event)
     {
-        return view('event-form', ['data' => $event, 'action' => route('events.update', $event->id)]);
+        return view('pages.event-form', ['data' => $event, 'action' => route('events.update', $event->id)]);
     }
 
     /**
